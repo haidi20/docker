@@ -1,6 +1,4 @@
-FROM ubuntu:latest
-MAINTAINER NewstarCorporation
-CMD ["sudo", "apt-get", "install", "httpd"]
-COPY index.php /var/www/html/
-CMD [“/usr/sbin/httpd”, “-D”, “FOREGROUND”]
+FROM php:7.3.3-apache
+RUN apt-get update && apt-get upgrade -y 
+RUN docker-php-ext-install mysqli
 EXPOSE 80
