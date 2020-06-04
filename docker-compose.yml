@@ -1,0 +1,9 @@
+version: '3.3'
+services: 
+  web: 
+    image: php:7.3-apache
+    container_name: php73
+    volumes:
+      - ./php:/var/www/html/
+    ports:
+      - 8000:80
