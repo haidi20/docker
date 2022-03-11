@@ -9,9 +9,8 @@ FROM python:3.8-alpine
 RUN mkdir -p /app
 WORKDIR /app
 
-# add file index.py
+# # add file index.py
 ADD index.py /app
 
 # Run the executable
 CMD ["python", "./index.py"]
-

@@ -1,1 +1,1 @@
-print("hello world keren")
+print("docker run python")
