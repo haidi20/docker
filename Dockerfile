@@ -1,16 +1,14 @@
-FROM python:3.8-alpine
+# syntax=docker/dockerfile:1
+FROM python:3
 
-# The latest alpine images don't have some tools like (`git` and `bash`).
-# Adding git, bash and openssh to the image
-# RUN apk update && apk upgrade && \ 
-#     apk add --no-cache git
+RUN apt-get update
 
-# Make dir app
-RUN mkdir -p /app
+COPY requirements.txt requirements.txt
+RUN python -m pip install --upgrade pip
+RUN pip install -r requirements.txt
+
+COPY . .
+
 WORKDIR /app
 
-# # add file index.py
-ADD index.py /app
-
-# Run the executable
-CMD ["python", "./index.py"]
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
