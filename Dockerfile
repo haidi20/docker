@@ -1,14 +1,8 @@
-# syntax=docker/dockerfile:1
-FROM python:3
+FROM nginx
 
-RUN apt-get update
+COPY ./nginx.conf /etc/nginx/nginx.conf
 
-COPY requirements.txt requirements.txt
-RUN python -m pip install --upgrade pip
-RUN pip install -r requirements.txt
-
-COPY . .
-
-WORKDIR /app
-
-# CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+COPY ./*.html /usr/share/nginx/html/
+#copy ./*.css /usr/share/nginx/html/
+#copy ./*.png /usr/share/nginx/html/
+#copy ./*.js /usr/share/nginx/html/
