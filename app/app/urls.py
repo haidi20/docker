@@ -18,6 +18,7 @@ from django.urls import path
 
 from post import views as post_views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/post/', post_views.index),
