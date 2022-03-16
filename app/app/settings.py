@@ -32,7 +32,7 @@ SECRET_KEY = env("SECRET_KEY", default="unsafe-secret-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["api"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'rest_framework',
     
      # Post application 
-    'post.apps.PostConfig',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
@@ -87,9 +87,17 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
+    # }
+    'default':{
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get("POSTGRES_DB", "djangoapp"), 
+        'USER': os.environ.get("POSTGRES_USER", "root"), 
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", "root"),
+        'HOST': os.environ.get("POSTGRES_HOST", "localhost"), 
+        'PORT': os.environ.get("POSTGRES_PORT", "5432"),
     }
 }
 
