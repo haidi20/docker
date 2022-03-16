@@ -10,7 +10,7 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - 80:80
+      - 3200:3200
 
   api:
     image: api
@@ -21,3 +21,15 @@ services:
     ports:
       - 5001:5001
     restart: on-failure
+
+  db:
+    image: postgres:14.1-alpine
+    container_name: db
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+    ports:
+      - '5432:5432'
+    # volumes: 
+    #   - db:/var/lib/postgresql/data
