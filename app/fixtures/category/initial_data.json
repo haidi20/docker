@@ -1,0 +1,6 @@
+[{
+    "model": "blog.category",
+    "fields": {
+        "title": "education"
+    }
+}]

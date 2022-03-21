@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_seed',
     
     # Django REST framework 
     'rest_framework',
@@ -93,11 +94,11 @@ DATABASES = {
     # }
     'default':{
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get("POSTGRES_DB", "djangoapp"), 
-        'USER': os.environ.get("POSTGRES_USER", "root"), 
-        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", "root"),
-        'HOST': os.environ.get("POSTGRES_HOST", "localhost"), 
-        'PORT': os.environ.get("POSTGRES_PORT", "5432"),
+        'NAME': os.environ.get("POSTGRES_DB", env("NAME_DB")), 
+        'USER': os.environ.get("POSTGRES_USER", env("USER")), 
+        'PASSWORD': os.environ.get("POSTGRES_PASSWORD", env("PASSWORD")),
+        'HOST': os.environ.get("POSTGRES_HOST", env("HOST")), 
+        'PORT': os.environ.get("POSTGRES_PORT", env("PORT")),
     }
 }
 
