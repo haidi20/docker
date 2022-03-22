@@ -34,6 +34,9 @@ DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = ["*"]
 
+NOSE_ARGS = ['--nocapture',
+             '--nologcapture',]
+
 
 # Application definition
 

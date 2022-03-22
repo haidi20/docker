@@ -1,37 +1,51 @@
-from django.http.response import JsonResponse
-from rest_framework.renderers import JSONRenderer
-from rest_framework import status
-from rest_framework.decorators import api_view
-from .serialize import PostSerializer
-from .models import Post
+from django.http import Http404
+from rest_framework.response import Response
+from rest_framework import generics, status, views
 
-from blog.services import Services
+from .models import Category, Post
+from .serialize import CategorySerializer, PostSerializer
 
 # Create your views here.
-@api_view(['GET'])
-def post_index(request):
-  posts = Post.objects.all() 
-  
-  if posts:
-      data = PostSerializer(posts, many=True).data
-      
-      return JsonResponse(data, safe=False, status=status.HTTP_200_OK)
-  else:
-      return JsonResponse(data = {} ,status=status.HTTP_404_NOT_FOUND)
 
-@api_view(['POST'])
-def post_store(request):
-  post = PostSerializer(data=request.data)
+class PostView(generics.ListCreateAPIView):
+  queryset = Post.objects.all()
+  serializer_class = PostSerializer
   
-  if post.is_valid():
-    post.save()
+  def get(self, request, *args, **kwargs):
+    category = Post.objects.all()
+    serializer = PostSerializer(category, many=True)
     
-    return JsonResponse(post.data, status=status.HTTP_200_OK)
-  else:
-    return JsonResponse(data = {}, status=status.HTTP_404_NOT_FOUND)
+    return Response(serializer.data, status=status.HTTP_200_OK)
   
-  # return JsonResponse(request.data, status=status.HTTP_200_OK) 
-
-@api_view(['GET'])
-def category_index(request):
-  return JsonResponse({'message': "category index"}, status=status.HTTP_200_OK) 
+  def post(self, request, *args, **kwargs):
+    serializer = PostSerializer(data=request.data)
+    
+    if serializer.is_valid():
+      question = serializer.save()
+      serializer = CategorySerializer(question)
+      
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+      
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
+  
+class CategoryView(generics.ListCreateAPIView):
+  queryset = Category.objects.all()
+  serializer_class = CategorySerializer
+  
+  def get(self, request, *args, **kwargs):
+    category = Category.objects.all()
+    serializer = CategorySerializer(category, many=True)
+    
+    return Response(serializer.data, status=status.HTTP_200_OK)
+  
+  def post(self, request, *args, **kwargs):
+    serializer = CategorySerializer(data=request.data)
+    if serializer.is_valid():
+      question = serializer.save()
+      serializer = CategorySerializer(question)
+      
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
+      
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    

@@ -1,8 +1,7 @@
-from django.urls import path
-from . import views
+from django.urls import include, re_path
+from .views import PostView, CategoryView
   
 urlpatterns = [
-  path("category/", views.category_index),
-  path("post/", views.post_index),
-  path("post/store", views.post_store),
+  re_path(r'^post/', PostView.as_view(), name="post"),
+  re_path(r'^category/', CategoryView.as_view(), name="category")
 ]
