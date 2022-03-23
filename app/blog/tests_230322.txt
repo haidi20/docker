@@ -1,7 +1,7 @@
 import json
 from collections import OrderedDict
 from unicodedata import category
-from .serialize import CategorySerializer
+from .serialize import CategorySerializer, PostSerializer
 from .views import PostView, CategoryView
 from rest_framework import generics, renderers, serializers, status
 from rest_framework.test import APITestCase
@@ -17,16 +17,15 @@ class CategoryTestCase(APITestCase):
     self.view = CategoryView.as_view()
     self.factory = APIRequestFactory()
     self.utils = TestUtils()
-    
-  def test_create_category(self):
-    requestBody = {
+    self.requestBody = {
       "title": "education",
       "subTitle": "education about IT",
     }
     
+  def test_create_category(self):
     request = self.factory.post(
       self.uri,
-      json.dumps(requestBody),
+      json.dumps(self.requestBody),
       content_type='application/json'
     )
     
@@ -34,7 +33,8 @@ class CategoryTestCase(APITestCase):
     
     self.assertEquals(
       response.status_code,
-      status.HTTP_201_CREATED
+      status.HTTP_201_CREATED,
+      f"response = {response.data}"
     )
     
   def test_create_category_fail(self):
@@ -54,7 +54,7 @@ class CategoryTestCase(APITestCase):
     )
     
     
-  def test_get_category(self):      
+  def test_get_category(self):          
     request = self.factory.get(
       self.uri
     )  
@@ -64,6 +64,7 @@ class CategoryTestCase(APITestCase):
     self.assertEquals(
       response.status_code,
       status.HTTP_200_OK,
+      f"response = {response.data}"
     )
     
 
@@ -97,6 +98,7 @@ class PostTestCase(APITestCase):
       self.assertEquals(
         response.status_code,
         status.HTTP_201_CREATED,
+        f"response = {response.data}"
       )
       
   def test_create_post_fail(self):    
@@ -116,6 +118,74 @@ class PostTestCase(APITestCase):
       f"response = {response.status_code}"
     )   
     
+  def test_update_post(self):
+    category = self.utils.create_category_if_not_exists()
+    serializeCategory = CategorySerializer(category, many=False)
+    
+    createPost = {
+      "title": "post",
+      "content": "skdjflksdjf",
+      "category": serializeCategory.data["id"]
+    }
+    
+    serializePost = PostSerializer(data=createPost)
+    
+    if serializePost.is_valid():
+      dataPost = serializePost.save()
+      
+      requestEdit = {
+        "title": "edit post",
+        "content": dataPost.data["content"],
+        "category": dataPost.data["category"],
+      }
+      
+      request = self.factory.put(
+        self.uri,
+        json.dumps(requestEdit),
+        content_type="application/json",
+      )
+      
+      response = self.view(request)
+      
+      self.assertEquals(
+        response.status_code,
+        status.HTTP_200_OK,
+        f"response = {response.data} requestEdit = {requestEdit}"
+      )  
+      
+  def test_delete_post(self):
+    category = self.utils.create_category_if_not_exists()
+    serializeCategory = CategorySerializer(category, many=False)
+    
+    createPost = {
+      "title": "post",
+      "content": "skdjflksdjf",
+      "category": serializeCategory.data["id"]
+    }
+    
+    serializePost = PostSerializer(data=createPost)
+    
+    if serializePost.is_valid():
+      dataPost = serializePost.save()
+      
+      requestDelete = {
+        "id": dataPost["id"]
+      }
+      
+      request = self.factory.delete(
+        self.uri,
+        json.dumps(requestDelete),
+        content_type="application/json",
+      )
+      
+      response = self.view(request, dataPost['id'])
+      
+      self.assertEqual(
+        response.status_code,
+        status.HTTP_400_BAD_REQUEST,
+        f"response = {response.data} requestEdit = {requestDelete}"
+      ) 
+        
     
   def test_get_post(self):
     request = self.factory.get(
@@ -126,7 +196,8 @@ class PostTestCase(APITestCase):
     
     self.assertEquals(
       response.status_code,
-      status.HTTP_200_OK
+      status.HTTP_200_OK,
+      f"response = {response.data}"
     )
     
 class TestUtils(APITestCase):
@@ -161,4 +232,17 @@ class TestUtils(APITestCase):
     )
     
     return category
+  
+  @staticmethod
+  def create_post_if_not_exists(title="growth world IT", content="ksdjflksdjfkj"):
+    category = Category.objects.last()
+    serializeCategory = CategorySerializer(category, many=False)
+    
+    post = Post.objects.create(
+      title=title,
+      content=content,
+      category=serializeCategory.data["id"]
+    )
+    
+    return post
       

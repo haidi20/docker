@@ -1,8 +1,5 @@
-import json
-from unicodedata import category
 from .models import Post, Category
 from rest_framework import serializers
-from django.contrib.postgres.fields import JSONField
         
 class CategorySerializer(serializers.ModelSerializer):  
   class Meta:
@@ -18,7 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
   class Meta:    
     model = Post
     fields = '__all__'   
-    extra_kwargs = {'category': {'read_only': True}}
+    # extra_kwargs = {'category': {'read_only': True}}
     
   def get_title_category(self, category):
     if category:

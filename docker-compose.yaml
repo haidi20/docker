@@ -60,7 +60,7 @@ services:
     user: root
     ports:
       - 8090:8080
-      - 50000:50000
+      - 5000:5000
     build:
       context: ./jenkins
     volumes:

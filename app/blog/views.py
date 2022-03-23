@@ -1,54 +1,60 @@
 import json
-from django.http import Http404
-from django.core import serializers
+from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
-from rest_framework.renderers import JSONRenderer
-from rest_framework import generics, status, views
+from rest_framework.decorators import api_view
 
 from .models import Category, Post
 from .serialize import CategorySerializer, PostSerializer
 
 # Create your views here.  
-class CategoryView(generics.ListCreateAPIView):
-  queryset = Category.objects.all()
-  serializer_class = CategorySerializer
-  
-  def get(self, request, *args, **kwargs):
-    category = Category.objects.all()
-    serializer = CategorySerializer(category, many=True)
+@api_view(['GET', 'POST'])
+def getPostCategory(request):
+  #get all category
+  if request.method == "GET":
+    categories = Category.objects.all()
+    serialize = CategorySerializer(categories, many=True)
     
-    return Response(data=json.dumps(serializer.data), status=status.HTTP_200_OK)
+    return Response(data=serialize.data, status=status.HTTP_200_OK)
   
-  def post(self, request, *args, **kwargs):
+  #insert new category
+  if request.method == "POST":
+    # data = {
+    #     'title': request.data.get('title'),
+    #     'subTitle': request.data.get('subTitle'),
+    # }
     serializer = CategorySerializer(data=request.data)
-    if serializer.is_valid():
-      question = serializer.save()
-      serializer = CategorySerializer(question)
-      
-      return Response(serializer.data, status=status.HTTP_201_CREATED)
-      
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-  
-class PostView(generics.ListCreateAPIView):
-  queryset = Post.objects.all()
-  serializer_class = PostSerializer
-  
-  def get(self, request, *args, **kwargs):
-    category = Post.objects.all()
-    serializer = PostSerializer(category, many=True)
-    # serializers = serializers.serialize("json", category)
-    
-    return Response(data=serializer.data, status=status.HTTP_200_OK)
-  
-  def post(self, request, *args, **kwargs):
-    serializer = PostSerializer(data=request.data)
     
     if serializer.is_valid():
-      question = serializer.save()
-      serializer = CategorySerializer(question)
+        serializer.save()
       
-      return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
       
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'DELETE', 'PUT'])
+def findUpdateDeleteCategory(request, pk):
+  try:
+      category = Category.objects.get(pk=pk)
+  except Category.DoesNotExist:
+      return Response(status=status.HTTP_404_NOT_FOUND)
+
+  # get details of a single category
+  if request.method == 'GET':
+      serializer = CategorySerializer(category)
+      return Response(serializer.data)
+
+  # update details of a single category
+  if request.method == 'PUT':
+      serializer = CategorySerializer(category, data=request.data)
+      if serializer.is_valid():
+          serializer.save()
+          return Response(serializer.data, status=status.HTTP_204_NO_CONTENT)
+      return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+  # delete a single category
+  if request.method == 'DELETE':
+    category.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
+  
+  
     

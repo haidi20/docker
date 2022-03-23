@@ -41,6 +41,9 @@ ALLOWED_HOSTS = ["*"]
 REST_FRAMEWORK = {
     'DEFAULT_PARSER_CLASSES': [
         'rest_framework.parsers.JSONParser',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
     ]
 }
 
@@ -54,10 +57,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_seed',
-    
     # Django REST framework 
     'rest_framework',
-    
+    'django_extensions',
      # Post application 
     'blog.apps.BlogConfig',
 ]

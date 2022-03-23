@@ -1,7 +1,7 @@
-from django.urls import include, re_path
-from .views import PostView, CategoryView
+from django.urls import re_path
+from . import views
   
 urlpatterns = [
-  re_path(r'^post/', PostView.as_view(), name="post"),
-  re_path(r'^category/', CategoryView.as_view(), name="category")
+  re_path(r'^category/$', views.getPostCategory, name="getPostCategory"),
+  re_path(r'^category/(?P<pk>[0-9]+)$', views.findUpdateDeleteCategory, name="findUpdateDeleteCategory"),
 ]
