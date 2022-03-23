@@ -1,13 +1,13 @@
 import json
-from venv import create
+from django.test import Client
 from django.urls import reverse
-from django.test import TestCase, Client
-from rest_framework.test import APITestCase
 from rest_framework import status
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from rest_framework.test import APITestCase
+from django.core.paginator import Paginator
 
-from .models import Category, Post
-from .serialize import CategorySerializer, PostSerializer
+from .Utils import TestUtils
+from ..models import Category
+from ..serializes import CategorySerializer
 
 # initialize the APIClient app
 client = Client()
@@ -99,43 +99,3 @@ class CategoryTestCase(APITestCase):
       responses,
       status.HTTP_204_NO_CONTENT,
     )
-  
-class TestUtils(APITestCase):
-  
-  def assert_responses(self, responses, expectedStatusCode, expectedBody = None):
-    self.assertEqual(
-      responses.status_code,
-      expectedStatusCode,
-      f"response: {responses.data}"
-    )
-    
-    if expectedBody is not None:
-      self.assertEqual(
-        responses.data,
-        expectedBody,
-        "test data"
-      )    
-  
-  @staticmethod
-  def create_category_if_not_exists(title="IT", subTitle="thing all about IT"):
-    category = Category.objects.create(
-      title=title,
-      subTitle=subTitle
-    )
-    
-    # serialize = CategorySerializer(category, many=False).data
-    
-    return category
-  
-  @staticmethod
-  def create_post_if_not_exists(title="growth world IT", content="ksdjflksdjfkj"):
-    category = Category.objects.last()
-    serializeCategory = CategorySerializer(category, many=False)
-    
-    post = Post.objects.create(
-      title=title,
-      content=content,
-      category=serializeCategory.data["id"]
-    )
-    
-    return post

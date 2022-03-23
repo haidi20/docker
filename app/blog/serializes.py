@@ -10,11 +10,12 @@ class PostSerializer(serializers.ModelSerializer):
   # category = serializers.SerializerMethodField("get_category")
   # category = serializers.StringRelatedField(many=False)
   # category = JSONField()
-  category = CategorySerializer(many=False)
+  # category = CategorySerializer(many=False)
   
   class Meta:    
     model = Post
     fields = '__all__'   
+    # extra_kwargs = {'category': {'required': False}}
     # extra_kwargs = {'category': {'read_only': True}}
     
   def get_title_category(self, category):
