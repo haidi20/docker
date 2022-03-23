@@ -1,5 +1,6 @@
 import json
 from rest_framework import status
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
@@ -8,13 +9,24 @@ from .serialize import CategorySerializer, PostSerializer
 
 # Create your views here.  
 @api_view(['GET', 'POST'])
-def getPostCategory(request):
+def getPostCategory(request):  
   #get all category
   if request.method == "GET":
-    categories = Category.objects.all()
-    serialize = CategorySerializer(categories, many=True)
+    categories = Category.objects.get_queryset().order_by('id')
+    paginator = Paginator(categories, 10)  # 3 posts in each page
+    page = request.GET.get('page')
     
-    return Response(data=serialize.data, status=status.HTTP_200_OK)
+    try:
+      categoryList = paginator.page(page)
+    except PageNotAnInteger:
+           
+      categoryList = paginator.page(1)
+    except EmptyPage:
+      categoryList = paginator.page(paginator.num_pages)
+    
+    serialize = CategorySerializer(categoryList, many=True).data
+    
+    return Response(data=serialize, status=status.HTTP_200_OK)
   
   #insert new category
   if request.method == "POST":

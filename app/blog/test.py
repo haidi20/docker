@@ -3,8 +3,8 @@ from venv import create
 from django.urls import reverse
 from django.test import TestCase, Client
 from rest_framework.test import APITestCase
-from rest_framework.test import APIRequestFactory
-from rest_framework import generics, renderers, serializers, status
+from rest_framework import status
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 from .models import Category, Post
 from .serialize import CategorySerializer, PostSerializer
@@ -28,10 +28,15 @@ class CategoryTestCase(APITestCase):
     
   def test_all(self):
     # get API response
-    responses = client.get(reverse('getPostCategory'))
+    responses = client.get(reverse('getPostCategory'), {"page": 1})
     # get data from db
-    category = Category.objects.all()
-    expectedBody = CategorySerializer(category, many=True).data
+    categories = Category.objects.get_queryset().order_by('id')
+    paginator = Paginator(categories, 10)  # 3 posts in each page
+    page = 1
+    
+    categoryPagination = paginator.page(page)
+    
+    expectedBody = CategorySerializer(categoryPagination, many=True).data
     
     self.utils.assert_responses(
       responses,
