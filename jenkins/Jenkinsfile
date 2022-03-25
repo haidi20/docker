@@ -2,23 +2,18 @@ pipeline {
     agent { docker { image 'python:3.9' } }
     stages {
         stage('Build') { 
-            // steps {
-            //     echo "build app"
-            //     sh 'pip install -r app/requirements.txt'
-            // }
-            agent any
-
             steps {
-                sh 'docker-compose build'
+                echo "build app"
+                sh 'pip install -r app/requirements.txt'
             }
         }
-        // stage('Test') { 
-        //     steps {
-        //         echo "test app"
-        //         sh 'python --version'
-        //         sh 'python app/manage.py test ./app'
-        //     }
-        // }
+        stage('Test') { 
+            steps {
+                echo "test app"
+                sh 'python --version'
+                sh 'python app/manage.py test ./app'
+            }
+        }
         stage('Deploy') { 
             steps {
                 echo "deploy app"
