@@ -15,9 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
   
   class Meta:    
     model = Post
-    fields = ("id", "title", "content", "category") 
-    extra_kwargs = {'category': {'required': False, "allow_null": True}}
-    # extra_kwargs = {'category': {'read_only': True}}
+    fields = ("id", "title", "content", "category_id", "category")
     
   def get_title_category(self, category):
     if category:
