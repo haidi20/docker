@@ -18,7 +18,11 @@ pipeline {
             }
         }
         stage('Test') { 
-            agent any
+            agent { 
+                docker { 
+                    image 'db' 'api'
+                } 
+            }
             
             stages {
                 stage('test') {
