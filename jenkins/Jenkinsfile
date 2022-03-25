@@ -1,10 +1,20 @@
 pipeline {
-    agent { docker { image 'api' }  docker { image 'db' }}
+    agent none
     stages {
         stage('Build') { 
-            steps {
-                echo "build app"
-                sh 'pip install -r app/requirements.txt'
+            agent { 
+                docker { 
+                    image 'api' 
+                } 
+            }
+
+            stages {
+                stage('Build') {
+                    steps {
+                        echo "build app"
+                        sh 'pip install -r app/requirements.txt'
+                    }
+                }
             }
         }
         stage('Test') { 
