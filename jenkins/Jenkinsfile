@@ -1,5 +1,5 @@
 def withDockerNetwork(Closure inner) {
-    try {
+   try {
       sh "docker run -itd --network=nginx_network db"
       inner.call("nginx_network")
     } finally {
@@ -19,11 +19,13 @@ pipeline {
           def database = docker.image('db')
           def app = docker.image('api')
 
-          database.withRun("--network ${n} --name database") { c ->
-            app.inside("""
-              --network ${n}
-            """) {
-              sh 'python app/manage.py test ./app'
+          withDockerNetwork{ n ->
+            database.withRun("--network ${n} --name database") { c ->
+              app.inside("""
+                --network ${n}
+              """) {
+                sh 'python app/manage.py test ./app'
+              }
             }
           }
         }
