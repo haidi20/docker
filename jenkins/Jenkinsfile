@@ -1,10 +1,14 @@
 node("myAgent") {
-    timeout(unit: 'SECONDS', time: 5) {
-        stage("One"){
-            sleep 10
-            echo 'hello'
-        }
-    }
+    // timeout(unit: 'SECONDS', time: 5) {
+    //     stage("One"){
+    //         sleep 10
+    //         echo 'hello'
+    //     }
+    // }
+
+  stage("test") {
+    echo "test app"
+  }
 }
 
 // node {
