@@ -2,7 +2,7 @@ def withDockerNetwork(Closure inner) {
     try {
       sh "docker network connect nginx_network db"
       inner.call("nginx_network")
-    }, finally {
+    } finally {
       sh "docker network rm nginx_network"
     }
   }
