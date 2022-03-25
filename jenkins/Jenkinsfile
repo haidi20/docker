@@ -1,19 +1,16 @@
 node {
   checkout scm
 
-  def apiImage = docker.image("api")
+  def apiImage = docker.image("api").image("db")
 
   apiImage.inside {
-    def dbImage = docker.image("db")
-    
+
     stage("version python") {
       sh "python --version"
     }
 
     stage("test django") {
-      dbImage.inside {
-        sh 'python app/manage.py test ./app'
-      }
+      sh 'python app/manage.py test ./app'
     }
   }
 }
