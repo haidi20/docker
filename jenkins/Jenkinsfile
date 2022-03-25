@@ -1,24 +1,28 @@
-node {
-  // checkout scm
+// node {
+//   checkout scm
+//   def apiImage = docker.image("api")
+//   def dbImage = docker.image("db")
 
-  image 'api db'
+//   apiImage.inside {
+//     stage("version python") {
+//       sh "python --version"
+//     }
+//   }
 
-  stage("version python") {
-    sh "python --version"
-  }
+//   dbImage.inside {
+//     stage("test django") {
+//       sh 'python app/manage.py test ./app'
+//     }
+//   }
+// }
 
-  // def apiImage = docker.image("api")
-  // def dbImage = docker.image("db")
-
-  // apiImage.inside {
-  //   stage("version python") {
-  //     sh "python --version"
-  //   }
-  // }
-
-  // dbImage.inside {
-  //   stage("test django") {
-  //     sh 'python app/manage.py test ./app'
-  //   }
-  // }
+pipeline {
+    agent { docker 'api db' } 
+    stages {
+        stage('test') {
+            steps {
+                sh "python --version"
+            }
+        }
+    }
 }
