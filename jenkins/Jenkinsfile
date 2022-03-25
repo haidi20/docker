@@ -1,13 +1,15 @@
 pipeline {
-    agent { docker { image 'api', image 'db' } }
+    agent { docker { image 'api' } }
     stages {
         stage('Build') { 
             steps {
                 echo "build app"
                 sh 'pip install -r app/requirements.txt'
+                sh '../docker-compose up -d'
             }
         }
         stage('Test') { 
+
             steps {
                 echo "test app"
                 sh 'python --version'
