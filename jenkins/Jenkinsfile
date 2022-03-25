@@ -20,7 +20,13 @@ pipeline {
         stage('Test') { 
             agent { 
                 docker { 
-                    image 'db' 'api'
+                    image 'api' 
+                } 
+            }
+
+            agent { 
+                docker { 
+                    image 'db' 
                 } 
             }
             
