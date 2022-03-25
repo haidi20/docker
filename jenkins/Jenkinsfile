@@ -4,13 +4,13 @@ pipeline {
   stage("test") {
     agent {
       label 'Docker'
+    }
 
-      steps {
-        script {
-          docker.image('api') {
-            docker.image('db') {
-              sh 'python app/manage.py test ./app'
-            }
+    steps {
+      script {
+        docker.image('api') {
+          docker.image('db') {
+            sh 'python app/manage.py test ./app'
           }
         }
       }
