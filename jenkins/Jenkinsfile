@@ -1,8 +1,17 @@
-node {
-    checkout scm
-    docker.image('api') { c ->
-      docker.image('db') {
-        sh 'python app/manage.py test ./app'
-      }
+node("myAgent") {
+    timeout(unit: 'SECONDS', time: 5) {
+        stage("One"){
+            sleep 10
+            echo 'hello'
+        }
     }
 }
+
+// node {
+//     checkout scm
+//     docker.image('api') { c ->
+//       docker.image('db') {
+//         sh 'python app/manage.py test ./app'
+//       }
+//     }
+// }
