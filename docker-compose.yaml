@@ -37,6 +37,7 @@ services:
   db:
     image: db
     container_name: db
+    alias: db
     healthcheck:
       test: [ "CMD", "pg_isready", "-q", "-d", "postgres", "-U", "root", "-P", "root" ]
       timeout: 45s
