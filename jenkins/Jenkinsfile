@@ -2,7 +2,7 @@ node {
   checkout scm
 
   docker.image('api').withRun { c ->
-    docker.image('db') {
+    docker.image('db').inside {
       sh 'python app/manage.py test ./app'
     }
   }
