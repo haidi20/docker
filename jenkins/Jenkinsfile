@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'api' } }
+    agent { docker { image 'api', image 'db' } }
     stages {
         stage('Build') { 
             steps {
@@ -8,10 +8,6 @@ pipeline {
             }
         }
         stage('Test') { 
-            agent {
-                docker { image 'db' }
-            }
-
             steps {
                 echo "test app"
                 sh 'python --version'
