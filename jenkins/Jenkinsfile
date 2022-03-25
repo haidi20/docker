@@ -1,18 +1,10 @@
-pipeline {
-  agent none
+node {
+  def docker_django
 
-  stage("test") {
-    agent {
-      label 'Docker'
-    }
-
-    steps {
-      script {
-        docker.image('api') {
-          docker.image('db') {
-            sh 'python app/manage.py test ./app'
-          }
-        }
+  stage('Test app') {
+    docker.image("api").inside {
+      docker.image("db").inside {
+        sh 'python app/manage.py test ./app'
       }
     }
   }
