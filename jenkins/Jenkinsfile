@@ -1,47 +1,39 @@
-// node {
-//   checkout scm
-//   def apiImage = docker.image("api")
-//   def dbImage = docker.image("db")
+node {
+  checkout scm
 
-//   apiImage.inside {
-//     stage("version python") {
-//       sh "python --version"
-//     }
-//   }
-
-//   dbImage.inside {
-//     stage("test django") {
-//       sh 'python app/manage.py test ./app'
-//     }
-//   }
-// }
-
-pipeline {
-    agent none
-    stages {
-        stage('Run Tests') {
-            parallel {
-                stage('Version Python') {
-                    agent {
-                        docker {
-                          image 'api'
-                        }
-                    }
-                    steps {
-                      sh 'python --version'
-                    }
-                }
-                stage('Test Django') {
-                    agent {
-                      docker {
-                        image 'db'
-                      }
-                    }
-                    steps {
-                      sh 'python app/manage.py test ./app'
-                    }
-                }
-            }
-        }
+  docker.image('api').withRun { c ->
+    docker.image('db') {
+      sh 'python app/manage.py test ./app'
     }
+  }
 }
+
+// pipeline {
+//     agent none
+//     stages {
+//         stage('Run Tests') {
+//             parallel {
+//                 stage('Version Python') {
+//                     agent {
+//                         docker {
+//                           image 'api'
+//                         }
+//                     }
+//                     steps {
+//                       sh 'python --version'
+//                     }
+//                 }
+//                 stage('Test Django') {
+//                     agent {
+//                       docker {
+//                         image 'db'
+//                       }
+//                     }
+//                     steps {
+//                       sh 'python app/manage.py test ./app'
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }
