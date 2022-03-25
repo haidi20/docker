@@ -10,8 +10,12 @@ pipeline {
                 }
             }
 
-            steps {
-                sh 'python --version'
+            stages {
+                stage('Build') {
+                    steps {
+                        sh 'python --version'
+                    }
+                }
             }
         }
     }
