@@ -1,48 +1,64 @@
 pipeline {
     agent {
-        docker { 
-            image 'api'
-        } 
+        docker { image 'api' }
     }
     stages {
-        // stage('Build') { 
-        //     agent { 
-        //         docker { 
-        //             image 'api'
-        //             reuseNode true
-        //         } 
-        //     }
-
-        //     stages {
-        //         stage('Build') {
-        //             steps {
-        //                 echo "build app"
-        //                 // sh 'pip install -r app/requirements.txt'
-        //             }
-        //         }
-        //     }
-        // }
-        stage('Test') { 
-            agent { 
+        stage('Back-end') {
+            agent {
                 docker { 
                     image 'db' 
-                } 
-            }
-            
-            stages {
-                stage('test') {
-                    steps {
-                        echo "test app"
-                        sh 'python --version'
-                        sh 'python app/manage.py test ./app'
-                    }
                 }
             }
-        }
-        stage('Deploy') { 
+
             steps {
-                echo "deploy app"
+                sh 'python --version'
             }
         }
     }
+    // agent {
+    //     docker { 
+    //         image 'api'
+    //     } 
+    // }
+    // stages {
+    //     // stage('Build') { 
+    //     //     agent { 
+    //     //         docker { 
+    //     //             image 'api'
+    //     //             reuseNode true
+    //     //         } 
+    //     //     }
+
+    //     //     stages {
+    //     //         stage('Build') {
+    //     //             steps {
+    //     //                 echo "build app"
+    //     //                 // sh 'pip install -r app/requirements.txt'
+    //     //             }
+    //     //         }
+    //     //     }
+    //     // }
+    //     stage('Test') { 
+    //         agent { 
+    //             docker { 
+    //                 image 'db' 
+    //             } 
+    //         }
+            
+    //         stages {
+    //             stage('test') {
+    //                 steps {
+    //                     echo "test app"
+    //                     sh 'python --version'
+    //                     sh 'python app/manage.py test ./app'
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     stage('Deploy') { 
+    //         steps {
+    //             echo "deploy app"
+    //         }
+    //     }
+    // }
 }
