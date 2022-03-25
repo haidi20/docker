@@ -1,7 +1,4 @@
-node {
-  checkout scm
-
-  def withDockerNetwork(Closure inner) {
+def withDockerNetwork(Closure inner) {
     try {
       sh "docker network connect nginx_network db"
       inner.call("nginx_network")
@@ -10,15 +7,31 @@ node {
     }
   }
 
-  withDockerNetwork{ n ->
-    docker.image('db').withRun("--network ${n} --name db") { c->
-      docker.image('api').inside("--network ${n}") {
-        // do something with host "sidecar"
+pipeline {
+  agent none
 
-        sh 'python app/manage.py test ./app'
+  stages {
+    stage("test") {
+      agent any
+
+      steps {
+        script {
+          def database = docker.image('db')
+          def app = docker.image('api')
+
+          withDockerNetwork{ n ->
+            database.withRun("--network ${n} --name database") { c ->
+              app.inside("""
+                --network ${n}
+              """) {
+                sh 'python app/manage.py test ./app'
+              }
+            }
+          }
+        }
       }
     }
-} 
+  }
 }
 
 // pipeline {
