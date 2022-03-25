@@ -17,7 +17,7 @@
 // }
 
 pipeline {
-    agent { docker 'api,db' } 
+    agent { docker 'api' } 
     stages {
         stage('test') {
             steps {
