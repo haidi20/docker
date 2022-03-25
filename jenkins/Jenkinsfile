@@ -2,9 +2,10 @@ node {
   checkout scm
 
   def apiImage = docker.image("api")
-  def dbImage = docker.image("db")
 
   apiImage.inside {
+    def dbImage = docker.image("db")
+    
     stage("version python") {
       sh "python --version"
     }
