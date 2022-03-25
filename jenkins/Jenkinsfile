@@ -18,10 +18,20 @@ pipeline {
             }
         }
         stage('Test') { 
-            steps {
-                echo "test app"
-                sh 'python --version'
-                sh 'python app/manage.py test ./app'
+            agent { 
+                docker { 
+                    image 'db' 
+                } 
+            }
+            
+            stages {
+                stage('test') {
+                    steps {
+                        echo "test app"
+                        sh 'python --version'
+                        sh 'python app/manage.py test ./app'
+                    }
+                }
             }
         }
         stage('Deploy') { 
