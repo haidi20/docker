@@ -4,6 +4,8 @@ node {
   def apiImage = docker.image("api")
 
   apiImage.inside {
-    sh "python --version"
+    steps("version python") {
+      sh "python --version"
+    }
   }
 }
