@@ -10,6 +10,7 @@ pipeline {
             steps {
                 echo "test app"
                 sh 'python --version'
+                sh 'python app/manage.py test'
             }
         }
         stage('Deploy') { 
