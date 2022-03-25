@@ -1,9 +1,11 @@
 node {
   checkout scm
 
-  docker.image('db').withRun { c ->
-    docker.image('api').inside {
-      sh 'python app/manage.py test ./app'
+  docker.withNetwork {
+    docker.image("db").withRun() { c->
+      docker.image('api').inside() {
+        sh 'python app/manage.py test ./app'
+      }
     }
   }
 }
