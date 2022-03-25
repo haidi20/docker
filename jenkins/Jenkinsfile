@@ -1,12 +1,9 @@
 node {
-  def docker_django
+  checkout scm
 
-  stage('Test app') {
-    docker.image("api").inside {
-      docker.image("db").inside {
-        sh 'python --version'
-        // sh 'python app/manage.py test ./app'
-      }
-    }
+  def apiImage = docker.image("api")
+
+  apiImage.inside {
+    sh "python --version"
   }
 }
