@@ -1,21 +1,19 @@
-node("myAgent") {
-    // timeout(unit: 'SECONDS', time: 5) {
-    //     stage("One"){
-    //         sleep 10
-    //         echo 'hello'
-    //     }
-    // }
+pipeline {
+  agent none
 
   stage("test") {
-    echo "test app"
+    agent {
+      label 'Docker'
+
+      steps {
+        script {
+          docker.image('api') {
+            docker.image('db') {
+              sh 'python app/manage.py test ./app'
+            }
+          }
+        }
+      }
+    }
   }
 }
-
-// node {
-//     checkout scm
-//     docker.image('api') { c ->
-//       docker.image('db') {
-//         sh 'python app/manage.py test ./app'
-//       }
-//     }
-// }
