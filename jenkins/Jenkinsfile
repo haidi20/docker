@@ -17,11 +17,30 @@
 // }
 
 pipeline {
-    agent { docker 'api' } 
+    agent none
     stages {
-        stage('test') {
-            steps {
-                sh "python --version"
+        stage('Run Tests') {
+            parallel {
+                stage('Version Python') {
+                    agent {
+                        docker {
+                          image 'api'
+                        }
+                    }
+                    steps {
+                      sh 'python --version'
+                    }
+                }
+                stage('Test Django') {
+                    agent {
+                      docker {
+                        image 'db'
+                      }
+                    }
+                    steps {
+                      sh 'python app/manage.py test ./app'
+                    }
+                }
             }
         }
     }
