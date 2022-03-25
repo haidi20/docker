@@ -1,10 +1,5 @@
 pipeline {
-    agent { 
-        docker { 
-            image 'api' 
-            image 'db'
-        } 
-    }
+    agent { docker { image 'python:3.9' image 'postgres:14.1-alpine' } }
     stages {
         stage('Build') { 
             steps {
@@ -13,7 +8,6 @@ pipeline {
             }
         }
         stage('Test') { 
-
             steps {
                 echo "test app"
                 sh 'python --version'
