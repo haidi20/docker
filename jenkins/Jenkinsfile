@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'python:3.9' } }
+    agent { docker { image 'api' } }
     stages {
         stage('Build') { 
             steps {
@@ -8,6 +8,10 @@ pipeline {
             }
         }
         stage('Test') { 
+            agent {
+                docker { image 'db' }
+            }
+
             steps {
                 echo "test app"
                 sh 'python --version'
