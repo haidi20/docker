@@ -3,4 +3,4 @@ build:
     web: ./nginx/Dockerfile
 run:
   # web: bundle exec puma -C config/puma.rb
-  web: py app/manage.py runserver 8000
+  web: python app/manage.py runserver 8000
