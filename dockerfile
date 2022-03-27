@@ -1,3 +1,0 @@
-FROM api
-
-FROM db

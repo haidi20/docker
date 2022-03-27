@@ -53,7 +53,7 @@ services:
     networks:
       - nginx_network
 
-  jenkins:
+  test:
     image: test
     container_name: test
     privileged: true

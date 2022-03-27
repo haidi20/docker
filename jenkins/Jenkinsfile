@@ -33,33 +33,3 @@ pipeline {
     }
   }
 }
-
-// pipeline {
-//     agent none
-//     stages {
-//         stage('Run Tests') {
-//             parallel {
-//                 stage('Version Python') {
-//                     agent {
-//                         docker {
-//                           image 'api'
-//                         }
-//                     }
-//                     steps {
-//                       sh 'python --version'
-//                     }
-//                 }
-//                 stage('Test Django') {
-//                     agent {
-//                       docker {
-//                         image 'db'
-//                       }
-//                     }
-//                     steps {
-//                       sh 'python app/manage.py test ./app'
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
