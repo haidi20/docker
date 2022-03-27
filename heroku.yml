@@ -2,4 +2,5 @@ build:
   docker:
     web: ./nginx/Dockerfile
 run:
-  web: bundle exec puma -C config/puma.rb
+  # web: bundle exec puma -C config/puma.rb
+  web: docker run api
