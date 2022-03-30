@@ -43,9 +43,9 @@ services:
       timeout: 45s
       interval: 10s
       retries: 10
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
+    # environment:
+    #   POSTGRES_USER: root
+    #   POSTGRES_PASSWORD: root
     restart: always
     build:
       context: ./db
