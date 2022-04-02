@@ -14,11 +14,11 @@ pipeline {
 
   environment {
     DEBUG = 1
-    POSTGRES_DB: djangoapp
-    POSTGRES_USER: root
-    POSTGRES_PASSWORD: root
-    POSTGRES_HOST: db
-    POSTGRES_PORT: 5432
+    POSTGRES_DB = djangoapp
+    POSTGRES_USER = root
+    POSTGRES_PASSWORD = root
+    POSTGRES_HOST = db
+    POSTGRES_PORT = 5432
   }
 
   stages {
