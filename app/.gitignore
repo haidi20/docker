@@ -1,4 +1,4 @@
-app/.env
+.env
 
 # Django #
 *.log
