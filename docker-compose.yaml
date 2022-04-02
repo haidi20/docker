@@ -16,6 +16,7 @@ services:
       - nginx_network
 
   api:
+    tty: true
     image: api
     container_name: api
     build:
