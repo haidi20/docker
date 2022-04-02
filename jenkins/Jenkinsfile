@@ -40,11 +40,7 @@ pipeline {
 
           withDockerNetwork{ n ->
             database.withRun("--network ${n} --name database") { c ->
-              app.inside("""
-                --network ${n}
-              """) {
-                sh 'python app/manage.py test ./app'
-              }
+              sh 'python app/manage.py test ./app'
             }
           }
         }
@@ -58,3 +54,19 @@ pipeline {
     }
   }
 }
+
+
+
+// image local
+// def database = docker.image('db')
+// def app = docker.image('api')
+
+// withDockerNetwork{ n ->
+//   database.withRun("--network ${n} --name database") { c ->
+//     app.inside("""
+//       --network ${n}
+//     """) {
+//       sh 'python app/manage.py test ./app'
+//     }
+//   }
+// }
