@@ -19,7 +19,7 @@ pipeline {
     POSTGRES_PASSWORD = 'root'
     POSTGRES_HOST = 'db'
     POSTGRES_PORT = 5432
-    SECRET_KEY = "uh6=n!7#2w$0w7&&rivs!_1efeo9g-!o1%2_b5!6y5t@nc)r#("
+    SECRET_KEY = 'uh6=n!7#2w$0w7&&rivs!_1efeo9g-!o1%2_b5!6y5t@ncr#'
   }
 
   stages {
