@@ -55,7 +55,9 @@ pipeline {
       agent any
 
       steps {
-        sh 'ssh root@139.180.213.137 '
+        sshagent(credentials : ['ssh']) {
+          sh 'ping google.com'
+        }
       }
     }
   }
