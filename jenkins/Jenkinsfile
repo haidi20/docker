@@ -8,7 +8,7 @@ def withDockerNetwork(Closure inner) {
   }
 
 pipeline {
-  agent none
+  agent "!windows"
 
   environment {
     DEBUG = 1
@@ -21,13 +21,13 @@ pipeline {
   }
 
   stages {
-    stage("build") {
-      agent any
+    // stage("build") {
+    //   agent any
 
-      steps {
-        sh 'echo build'
-      }
-    }
+    //   steps {
+    //     sh 'echo build'
+    //   }
+    // }
 
     stage("test") {
       agent any
