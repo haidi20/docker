@@ -1,6 +1,6 @@
 def withDockerNetwork(Closure inner) {
    try {
-      sh "docker run -itd --network=nginx_network db"
+      sh "docker run -itd --network=nginx_network haidinata/db:v1"
       inner.call("nginx_network")
     } finally {
       // sh "docker network rm nginx_network"
