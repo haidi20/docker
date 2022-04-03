@@ -38,8 +38,14 @@ pipeline {
           def database = docker.image('haidinata/db:v1')
           def app = docker.image('haidinata/api:v1')
 
-          app.inside(){
-            sh 'python --version'
+          withDockerNetwork{ n ->
+            database.withRun("--network ${n} --name database") { c ->
+              app.inside("""
+                --network ${n}
+              """) {
+                sh 'python app/manage.py test ./app'
+              }
+            }
           }
         }
       }
