@@ -22,7 +22,7 @@ pipeline {
 
   stages {
     stage("build") {
-      agent none
+      agent any
 
       steps {
         sh 'echo build'
