@@ -8,7 +8,7 @@ def withDockerNetwork(Closure inner) {
   }
 
 pipeline {
-  agent none
+  agent '!ubuntu'
 
   environment {
     DEBUG = 1
