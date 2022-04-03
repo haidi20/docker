@@ -38,15 +38,17 @@ pipeline {
           def database = docker.image('db')
           def app = docker.image('api')
 
-          withDockerNetwork{ n ->
-            database.withRun("--network ${n} --name database") { c ->
-              app.inside("""
-                --network ${n}
-              """) {
-                sh 'python app/manage.py test ./app'
-              }
+          database { c ->
+            app.inside("""
+              python --version
+            """) {
+              sh 'python app/manage.py test ./app'
             }
           }
+
+          // withDockerNetwork{ n ->
+            
+          // }
         }
       }
     }
