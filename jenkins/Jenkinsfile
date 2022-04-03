@@ -57,6 +57,7 @@ pipeline {
       steps {
         sshagent(credentials : ['ssh']) {
           sh 'docker pull haidinata/webserver:v1'
+          sh 'docker images'
         }
       }
     }
