@@ -8,7 +8,7 @@ def withDockerNetwork(Closure inner) {
   }
 
 pipeline {
-  agent any
+  agent none
 
   environment {
     DEBUG = 1
@@ -22,6 +22,8 @@ pipeline {
 
   stages {
     stage("build") {
+      agent none
+
       steps {
         sh 'echo build'
       }
@@ -50,6 +52,8 @@ pipeline {
     }
 
     stage("deploy") {
+      agent none
+
       steps {
         sh 'ssh root@139.180.213.137 '
       }
