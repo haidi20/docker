@@ -22,7 +22,7 @@ pipeline {
 
   stages {
     stage("build") {
-      agent none
+      agent any
 
       steps {
         sh 'echo build'
@@ -30,7 +30,6 @@ pipeline {
     }
 
     stage("test") {
-      agent any
 
       steps {
         script {
