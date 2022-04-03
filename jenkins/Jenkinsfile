@@ -51,12 +51,12 @@ pipeline {
       }
     }
 
-    stage("deploy") {
-      agent none
+    // stage("deploy") {
+    //   agent none
 
-      steps {
-        sh 'ssh root@139.180.213.137 '
-      }
-    }
+    //   steps {
+    //     sh 'ssh root@139.180.213.137 '
+    //   }
+    // }
   }
 }
