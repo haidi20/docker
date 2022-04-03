@@ -29,38 +29,38 @@ pipeline {
       }
     }
 
-    // stage("test") {
-    //   agent any
-
-    //   steps {
-    //     script {
-    //       // image local
-    //       def database = docker.image('db')
-    //       def app = docker.image('api')
-
-    //       withDockerNetwork{ n ->
-    //         database.withRun("--network ${n} --name database") { c ->
-    //           app.inside("""
-    //             --network ${n}
-    //           """) {
-    //             sh 'python app/manage.py test ./app'
-    //           }
-    //         }
-    //       }
-    //     }
-    //   }
-    // }
-
-    stage("deploy") {
+    stage("test") {
       agent any
 
       steps {
-        sshagent(credentials : ['ssh']) {
-          sh 'ssh root@139.180.213.137 "cd /home/docker-django "'
-          // sh 'docker pull haidinata/webserver:v1'
-          // sh 'docker images'
+        script {
+          // image local
+          def database = docker.image('db')
+          def app = docker.image('api')
+
+          withDockerNetwork{ n ->
+            database.withRun("--network ${n} --name database") { c ->
+              app.inside("""
+                --network ${n}
+              """) {
+                sh 'python app/manage.py test ./app'
+              }
+            }
+          }
         }
       }
     }
+
+    // stage("deploy") {
+    //   agent any
+
+    //   steps {
+    //     sshagent(credentials : ['ssh']) {
+    //       sh 'ssh root@139.180.213.137 "cd /home/docker-django "'
+    //       // sh 'docker pull haidinata/webserver:v1'
+    //       // sh 'docker images'
+    //     }
+    //   }
+    // }
   }
 }
