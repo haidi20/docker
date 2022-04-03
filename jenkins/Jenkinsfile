@@ -56,10 +56,7 @@ pipeline {
 
       steps {
         sshagent(credentials : ['ssh']) {
-          // sh 'ssh root@139.180.213.137 "source venv/bin/activate; "'
-          // sh 'cd /home/docker-django'
-          sh 'ls'
-          sh 'git remote -v '
+          ssh 'docker pull haidinata/webserver:v1'
         }
       }
     }
