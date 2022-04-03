@@ -38,7 +38,7 @@ pipeline {
           def database = docker.image('db')
           def app = docker.image('api')
 
-          database { c ->
+          database.inside() {
             app.inside("""
               python --version
             """) {
