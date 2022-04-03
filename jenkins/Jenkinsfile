@@ -35,8 +35,8 @@ pipeline {
       steps {
         script {
           // image local
-          def database = docker.image('db')
-          def app = docker.image('api')
+          def database = docker.image('haidinata/db:v1')
+          def app = docker.image('haidinata/api:v1')
 
           database.inside() {
             app.inside("""
