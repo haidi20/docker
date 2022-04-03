@@ -40,9 +40,9 @@ pipeline {
 
           database.inside() {
             app.inside("""
-              docker exec -it api bash
+              python --version
             """) {
-              sh 'python manage.py test ./app'
+              // sh 'python manage.py test ./app'
             }
           }
 
@@ -52,6 +52,8 @@ pipeline {
         }
       }
     }
+
+    // docker exec -it api bash
 
     // stage("deploy") {
     //   agent any
