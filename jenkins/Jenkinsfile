@@ -21,13 +21,13 @@ pipeline {
   }
 
   stages {
-    // stage("build") {
-    //   agent any
+    stage("build") {
+      agent none
 
-    //   steps {
-    //     sh 'echo build'
-    //   }
-    // }
+      steps {
+        sh 'echo build'
+      }
+    }
 
     stage("test") {
       agent any
