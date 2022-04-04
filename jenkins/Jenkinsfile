@@ -34,10 +34,13 @@ pipeline {
       agent any
 
       steps {
-        sh 'python --version'
-        sh 'python app/manage.py test ./app'
+        // sh 'python app/manage.py test ./app'
 
-        script {      
+        script {  
+          docker.image('python:3.9.12-alpine').inside {
+            sh 'python --version'
+          }
+
           docker.withRegistry("https://registry.hub.docker.com", 'haidinata-docker') {
             
           }
