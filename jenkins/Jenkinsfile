@@ -39,7 +39,7 @@ pipeline {
 
           
           // withDockerNetwork{ n ->
-            docker.withRegistry('', 'haidinata-docker') {
+            withDockerRegistry('', 'haidinata-docker') {
               database.withRun("") { c ->
                 app.inside("""
                   
