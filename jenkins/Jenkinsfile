@@ -40,14 +40,14 @@ pipeline {
           
           // withDockerNetwork{ n ->
             docker.withRegistry("https://registry.hub.docker.com", 'haidinata-docker') {
-              database.withRun("") { c ->
+              // database.withRun("") { c ->
                 api.inside("""
                   
                 """) {
                   sh 'python --version'
                   // sh 'python app/manage.py test ./app'
                 }
-              }
+              // }
             }
           // }
         }
