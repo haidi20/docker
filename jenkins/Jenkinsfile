@@ -37,14 +37,15 @@ pipeline {
 
       steps {
         // sh 'python app/manage.py test ./app'
+        sh 'python --version'
 
-        script {  
-          sh 'python --version'
+        // script {  
+          
 
           // docker.withRegistry("https://registry.hub.docker.com", 'haidinata-docker') {
             
           // }
-        }
+        // }
       }
     }
 
