@@ -1,6 +1,6 @@
 def withDockerNetwork(Closure inner) {
    try {
-      sh "docker run -itd --network=nginx_network haidinata/db:v1"
+      sh "docker run -itd --network=nginx_network db"
       inner.call("nginx_network")
     } finally {
       // sh "docker network rm nginx_network"
@@ -36,7 +36,7 @@ pipeline {
         script {
           docker.withRegistry('', 'haidinata-docker') {
             // image local
-            def database = docker.image('haidinata/db:v1')
+            def database = docker.image('db')
             def app = docker.image('haidinata/api:v1')
 
             
