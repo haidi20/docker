@@ -2,7 +2,8 @@ pipeline {
     // agent { 
     //   docker { image 'python:latest' } 
     // }
-    agent none
+
+    agent any
     
     stages {
       stage('Build') { 
