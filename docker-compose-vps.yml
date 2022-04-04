@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  websersver:
+  webserver:
     image: haidinata/webserver:v1
     container_name: webserver
     depends_on:
