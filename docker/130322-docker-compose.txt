@@ -1,9 +1,0 @@
-version: '3'
-
-services:
-  api:
-    container_name: api
-    build: .
-    command: python ./app/manage.py runserver 0.0.0.0:8000
-    ports: 
-      - "8000:8000"
