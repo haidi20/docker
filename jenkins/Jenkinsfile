@@ -34,13 +34,12 @@ pipeline {
 
       steps {
         script {
-          docker.withRegistry('', 'haidinata-docker') {
-            // image local
-            def database = docker.image('db')
-            def app = docker.image('haidinata/api:v1')
+          def database = docker.image('db')
+          def app = docker.image('haidinata/api:v1')
 
-            
-            withDockerNetwork{ n ->
+          
+          withDockerNetwork{ n ->
+            docker.withRegistry('', 'haidinata-docker') {
               database.withRun("--network ${n} --name database") { c ->
                 app.inside("""
                   --network ${n}
