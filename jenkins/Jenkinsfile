@@ -7,8 +7,6 @@ def withDockerNetwork(Closure inner) {
   }
 }
 
-def db, api
-
 pipeline {
   agent none
 
@@ -27,10 +25,6 @@ pipeline {
       agent any
 
       steps {
-        script {
-          db = docker.image('haidinata/db:v1')
-          api = docker.image('haidinata/api:v1')
-        }
 
         sh 'echo build'
       }
@@ -40,7 +34,9 @@ pipeline {
       agent any
 
       steps {
-        script {         
+        script {     
+          def db = docker.image('haidinata/db:v1')
+          def api = docker.image('haidinata/api:v1')    
           
           // withDockerNetwork{ n ->
             // withDockerRegistry('https://registry.hub.docker.com', 'haidinata-docker') {
