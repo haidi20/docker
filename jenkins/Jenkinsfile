@@ -1,13 +1,11 @@
 def withDockerNetwork(Closure inner) {
-   try {
-      sh "docker run -itd --network=nginx_network db"
-      inner.call("nginx_network")
-    } finally {
-      // sh "docker network rm nginx_network"
-    }
+  try {
+    sh "docker run -itd --network=nginx_network db"
+    inner.call("nginx_network")
+  } finally {
+    // sh "docker network rm nginx_network"
   }
-
-def db, api
+}
 
 pipeline {
   agent none
@@ -27,8 +25,8 @@ pipeline {
       agent any
 
       steps {
-        db = docker.build('haidinata/db:v1')
-        api = docker.build('haidinata/api:v1')
+        def db = docker.build('haidinata/db:v1')
+        def api = docker.build('haidinata/api:v1')
 
         sh 'echo build'
       }
