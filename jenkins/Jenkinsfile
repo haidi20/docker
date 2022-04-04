@@ -43,7 +43,7 @@ pipeline {
         script {         
           
           // withDockerNetwork{ n ->
-            withDockerRegistry('', 'haidinata-docker') {
+            withDockerRegistry('https://registry.hub.docker.com', 'haidinata-docker') {
               database.withRun("") { c ->
                 api.inside("""
                   
