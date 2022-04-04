@@ -31,7 +31,7 @@ pipeline {
     }
 
     stage("test") {
-      agent any
+      agent docker {image 'python:3.9.12-alpine'}
 
       steps {
         // sh 'python app/manage.py test ./app'
