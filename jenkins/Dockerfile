@@ -1,6 +1,6 @@
 FROM jenkins/jenkins:2.60.3-alpine
 USER root
-RUN apk add --update lsb-release
+# RUN apk add --update lsb-release
 RUN curl -fsSLo /usr/share/keyrings/docker-archive-keyring.asc \
   https://download.docker.com/linux/debian/gpg
 RUN echo "deb [arch=$(dpkg --print-architecture) \
