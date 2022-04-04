@@ -1,5 +1,5 @@
 # FROM jenkins/jenkins:2.332.1-jdk11
-FROM jenkins/jenkins:2.60.3-openjdk:8-jdk
+FROM jenkins/jenkins:2.60.3-openjdk
 USER root
 
 RUN apt-get update && apt-get install -y lsb-release
