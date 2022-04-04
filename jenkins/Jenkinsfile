@@ -30,24 +30,27 @@ pipeline {
     }
 
     stage("test") {
-      agent any
+      agent {
+        docker {image 'python:3.9.12-alpine'}
+      }
 
       steps {
-        script {
-          // image local
-          def database = docker.image('db')
-          def app = docker.image('api')
+        sh 'python --version'
+        // script {
+        //   // image local
+        //   def database = docker.image('db')
+        //   def app = docker.image('api')
 
-          withDockerNetwork{ n ->
-            database.withRun("--network ${n} --name database") { c ->
-              app.inside("""
-                --network ${n}
-              """) {
-                sh 'python app/manage.py test ./app'
-              }
-            }
-          }
-        }
+        //   withDockerNetwork{ n ->
+        //     database.withRun("--network ${n} --name database") { c ->
+        //       app.inside("""
+        //         --network ${n}
+        //       """) {
+        //         sh 'python app/manage.py test ./app'
+        //       }
+        //     }
+        //   }
+        // }
       }
     }
 
