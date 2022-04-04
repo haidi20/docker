@@ -25,8 +25,8 @@ pipeline {
       agent any
 
       steps {
-        def db = docker.build('haidinata/db:v1')
-        def api = docker.build('haidinata/api:v1')
+        db = docker.build('haidinata/db:v1')
+        api = docker.build('haidinata/api:v1')
 
         sh 'echo build'
       }
