@@ -1,25 +1,27 @@
 pipeline {
-    agent { 
-      docker { image 'python:latest' } 
-    }
+    // agent { 
+    //   docker { image 'python:latest' } 
+    // }
+    agent none
+    
     stages {
-        stage('Build') { 
-            steps {
-                echo "build app"
-                // sh 'pip install -r app/requirements.txt'
-            }
-        }
-        stage('Test') { 
-            steps {
-                echo "test app"
-                sh 'python --version'
-                // sh 'python app/manage.py test ./app'
-            }
-        }
-        stage('Deploy') { 
-            steps {
-                echo "deploy app"
-            }
-        }
+      stage('Build') { 
+          steps {
+              echo "build app"
+              // sh 'pip install -r app/requirements.txt'
+          }
+      }
+      // stage('Test') { 
+      //     steps {
+      //         echo "test app"
+      //         sh 'python --version'
+      //         // sh 'python app/manage.py test ./app'
+      //     }
+      // }
+      // stage('Deploy') { 
+      //     steps {
+      //         echo "deploy app"
+      //     }
+      // }
     }
 }
