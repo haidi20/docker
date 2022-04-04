@@ -7,6 +7,8 @@ def withDockerNetwork(Closure inner) {
   }
 }
 
+def db, api
+
 pipeline {
   agent none
 
@@ -25,8 +27,10 @@ pipeline {
       agent any
 
       steps {
-        db = docker.build('haidinata/db:v1')
-        api = docker.build('haidinata/api:v1')
+        script {
+          db = docker.build('haidinata/db:v1')
+          api = docker.build('haidinata/api:v1')
+        }
 
         sh 'echo build'
       }
