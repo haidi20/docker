@@ -21,7 +21,7 @@ services:
     build:
       context: ./jenkins
     volumes:
-      # - /home/${myname}/jenkins_compose/jenkins_configuration:/var/jenkins_home
+      # - /home/${myname}/jenkins_compose/jenkins_configuration:/var/jenkins_home //bikin permanent data-datanya
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - nginx_network
