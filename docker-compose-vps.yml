@@ -40,7 +40,7 @@ services:
       - nginx_network
   
   test:
-    image: jenkins/jenkins:2.341-jdk11
+    image: test
     container_name: test
     privileged: true
     user: root
