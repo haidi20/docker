@@ -39,7 +39,7 @@ pipeline {
           def api = docker.image('haidinata/api:v1')    
           
           // withDockerNetwork{ n ->
-            // withDockerRegistry('https://registry.hub.docker.com', 'haidinata-docker') {
+            docker.withRegistry("https://registry.hub.docker.com", 'haidinata-docker') {
               database.withRun("") { c ->
                 api.inside("""
                   
@@ -48,7 +48,7 @@ pipeline {
                   // sh 'python app/manage.py test ./app'
                 }
               }
-            // }
+            }
           // }
         }
       }
