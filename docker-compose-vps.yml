@@ -6,41 +6,10 @@ services:
     container_name: webserver
     build:
       context: ./nginx
-    depends_on:
-      - api
     ports:
       - 80:80
     networks:
-      - nginx_network
-  
-  api:
-    tty: true
-    image: haidinata/api:v1
-    container_name: api
-    depends_on:
-      - db
-    environment:
-      POSTGRES_DB: djangoapp
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_HOST: db
-      POSTGRES_PORT: 5432
-    # command: python manage.py runserver 0.0.0.0:8000
-    ports:
-      - 8000:8000
-    restart: on-failure
-    networks:
-        - nginx_network
-  
-  db:
-    image: haidinata/db:v1
-    container_name: db
-    restart: always
-    ports:
-      - 5432:5432
-    networks:
-      - nginx_network
-  
+      - nginx_network  
   test:
     image: test
     container_name: test
