@@ -34,20 +34,13 @@ pipeline {
       agent any
 
       steps {
-        script {     
-          def db = docker.image('haidinata/db:v1')
-          def api = docker.image('haidinata/api:v1')    
-          
-          // withDockerNetwork{ n ->
-            docker.withRegistry("https://registry.hub.docker.com", 'haidinata-docker') {
-              db.withRun("") { c ->
-                api.inside {
-                  sh 'python --version'
-                  // sh 'python app/manage.py test ./app'
-                }
-              }
-            }
-          // }
+        sh 'python --version'
+        sh 'python app/manage.py test ./app'
+
+        script {      
+          docker.withRegistry("https://registry.hub.docker.com", 'haidinata-docker') {
+            
+          }
         }
       }
     }
