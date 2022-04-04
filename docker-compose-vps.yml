@@ -2,8 +2,10 @@ version: '3'
 
 services:
   webserver:
-    image: haidinata/webserver:v1
+    image: webserver
     container_name: webserver
+    build:
+      context: ./nginx
     depends_on:
       - api
     ports:
