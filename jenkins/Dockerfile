@@ -1,5 +1,5 @@
 # FROM jenkins/jenkins:2.332.1-jdk11
-FROM jenkins/jenkins:2.341
+FROM jenkins/jenkins:1.34
 USER root
 
 RUN apt-get update && apt-get install -y lsb-release
