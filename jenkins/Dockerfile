@@ -14,5 +14,5 @@ USER root
 # COPY /var/run/docker.sock:/var/run/docker.sock
 # COPY executors.groovy /usr/share/jenkins/ref/init.groovy.d/executors.groovy
 
-USER jenkins
-RUN jenkins-plugin-cli --plugins "blueocean:1.25.3 docker-workflow:1.28 " 
+# USER jenkins
+# RUN jenkins-plugin-cli --plugins "blueocean:1.25.3 docker-workflow:1.28 " 
