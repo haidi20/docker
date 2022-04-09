@@ -1,7 +1,0 @@
-[{
-    "model": "blog.post",
-    "fields": {
-        "title": "kemerdekaan",
-        "category_id": 1
-    }
-}]

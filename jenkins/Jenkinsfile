@@ -1,69 +1,19 @@
-def withDockerNetwork(Closure inner) {
-   try {
-      sh "docker run -itd --network=nginx_network db"
-      inner.call("nginx_network")
-    } finally {
-      // sh "docker network rm nginx_network"
-    }
-  }
-
 pipeline {
-  agent none
-
-  environment {
-    DEBUG = 1
-    POSTGRES_DB = 'djangoapp'
-    POSTGRES_USER = 'root'
-    POSTGRES_PASSWORD = 'root'
-    POSTGRES_HOST = 'db'
-    POSTGRES_PORT = 5432
-    SECRET_KEY = 'uh6=n!7#2w$0w7&&rivs!_1efeo9g-!o1%2_b5!6y5t@ncr#'
-  }
-
-  stages {
-    stage("build") {
-      agent any
-
-      steps {
-        sh 'echo build'
-      }
+    agent none 
+    stages {
+        stage('Example Build') {
+            agent { docker 'maven:3.8.1-adoptopenjdk-11' } 
+            steps {
+                echo 'Hello, Maven'
+                sh 'mvn --version'
+            }
+        }
+        stage('Example Test') {
+            agent { docker 'openjdk:8-jre' } 
+            steps {
+                echo 'Hello, JDK'
+                sh 'java -version'
+            }
+        }
     }
-
-    stage("test") {
-      agent {
-        docker {image 'python:3.9.12-alpine'}
-      }
-
-      steps {
-        sh 'python --version'
-        // script {
-        //   // image local
-        //   def database = docker.image('db')
-        //   def app = docker.image('api')
-
-        //   withDockerNetwork{ n ->
-        //     database.withRun("--network ${n} --name database") { c ->
-        //       app.inside("""
-        //         --network ${n}
-        //       """) {
-        //         sh 'python app/manage.py test ./app'
-        //       }
-        //     }
-        //   }
-        // }
-      }
-    }
-
-    // stage("deploy") {
-    //   agent any
-
-    //   steps {
-    //     sshagent(credentials : ['ssh']) {
-    //       sh 'ssh root@139.180.213.137 "cd /home/docker-django "'
-    //       // sh 'docker pull haidinata/webserver:v1'
-    //       // sh 'docker images'
-    //     }
-    //   }
-    // }
-  }
 }
