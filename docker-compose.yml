@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+
+  webserver:
+    image: nginx:latest
+    container_name: webserver
+  php5:
+    image: php:5
+    container_name: php5
+  database:
+    image: postgre:latest
+    container_name: postgreSql
